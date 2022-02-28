@@ -141,6 +141,12 @@ $(document).ready(function () {
 	$("#new").click(function() {
 		newCanvas();
 	});
+	$("#FullScreen").click(function() {
+		openFullscreen();
+	});
+	$("#save").click(function() {
+		canvasSave();
+	});
 });
 
 // function to setup a new canvas for drawing
@@ -161,6 +167,26 @@ function newCanvas(){
 	$("#canvas").drawMouse();
 }
 
+function openFullscreen() {
+	var elem = document.documentElement;
+	if (elem.requestFullscreen) {
+		elem.requestFullscreen();
+	} else if (elem.webkitRequestFullscreen) { /* Safari */
+		elem.webkitRequestFullscreen();
+	} else if (elem.msRequestFullscreen) { /* IE11 */
+		elem.msRequestFullscreen();
+	}
+}
+
+function canvasSave() {
+	var canvas = document.querySelector('#canvas');
+    var dataURL = canvas.toDataURL("image/png", 1.0);
+	var a = document.createElement('a');
+    a.href = dataURL;
+    a.download = 'Scribble.png';
+    document.body.appendChild(a);
+    a.click();
+}
 // prototype to	start drawing on touch using canvas moveTo and lineTo
 $.fn.drawTouch = function() {
 	var start = function(e) {
@@ -235,6 +261,8 @@ $.fn.drawMouse = function() {
 <div id="page">
     <div class="header">
 		<a id="new" class="navbtn">New</a>
+		<a id="FullScreen" class="navbtn">FullScreen</a>
+		<a id="save" class="navbtn">Save</a>
         <div class="title">Sketch Pad</div>
     </div>
     <div id="content"><p style="text-align:center">Loading Canvas...</p></div>
